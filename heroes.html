@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'> 
+    <link href="app.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://underscorejs.org/underscore-min.js"></script>
+    <script src="heroes.js"></script>
+  </head>
+  <body ng-app="heroes">
+    <header>
+      <h1>The Evolution Pit</h1>
+      <div class="league-selector">
+        <select>
+          <option>Hero League</option>
+          <option>Team League</option>
+          <option>Quick Match</option>
+        </select>
+      </div>
+    </header>
+    <nav>
+      <ul>
+        <li><a href="/heroes">Heroes</a></li>
+        <li><a href="/maps">Maps</a></li>
+        <li><a href="/players">Players</a></li>
+        <li><a href="/esports">E-Sports</a></li>
+        <li><a href="/account">Account</a></li>
+      </ul>
+    </nav>
+    <div class="container heroes" ng-controller="HeroList">
+      <div class="hero-graph">
+      </div>
+      <table>
+        <col></col>
+        <col width="70" class="stat"></col>
+        <col width="70" class="stat"></col>
+        <col width="70" class="stat"></col>
+        <col width="70" class="stat"></col>
+        <col width="70" class="stat"></col>
+        <col width="70" class="stat"></col>
+        <thead>
+          <tr>
+            <th><!-- Hero Name --></th>
+            <th>Win Rate</th>
+            <th>Popularity</th>
+            <th>Kill %<br />(early game)</th>
+            <th>Kill %<br />(mid game)</th>
+            <th>Kill %<br />(late game)</th>
+            <th>Meta Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="hero in heroes" ng-class="{hovered: activeHero.name === hero.name}">
+            <td>{{ hero.name }}</td>
+            <td class="stat">{{hero.win_rate}}%</td>
+            <td class="stat">{{hero.popularity}}%</td>
+            <td class="stat">--</td>
+            <td class="stat">--</td>
+            <td class="stat">--</td>
+            <td class="stat">{{((hero.win_rate * hero.popularity) / hero.games_played * 1000).toFixed(0)}} </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
