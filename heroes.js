@@ -81,6 +81,8 @@ angular.module('heroes', [])
 
       var xAxis = d3.svg.axis().scale(x).orient("bottom");
       var yAxis = d3.svg.axis().scale(y).orient("left");
+      xAxis.ticks(2);
+      xAxis.tickFormat(d3.time.format("%m/%d"));
 
       var line = d3.svg.line()
                   .interpolate("basis")
