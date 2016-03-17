@@ -51,14 +51,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="hero in heroes" ng-class="{hovered: activeHero.name === hero.name}">
+          <tr ng-repeat="hero in heroes | orderBy:'-score' " ng-class="{hovered: activeHero.name === hero.name}">
             <td>{{ hero.name }}</td>
             <td class="stat">{{hero.win_rate}}%</td>
             <td class="stat">{{hero.popularity}}%</td>
             <td class="stat">--</td>
             <td class="stat">--</td>
             <td class="stat">--</td>
-            <td class="stat">{{((hero.win_rate * hero.popularity) / hero.games_played * 1000).toFixed(0)}} </td>
+            <td class="stat">{{(hero.score).toFixed(0)}} </td>
           </tr>
         </tbody>
       </table>

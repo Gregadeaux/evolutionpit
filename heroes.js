@@ -23,7 +23,10 @@ angular.module('heroes', [])
 })
 .controller("HeroList", function($scope, Heroes, $q) {
   Heroes.all().then(function(heroes) {
-    $scope.heroes = heroes;
+    $scope.heroes = _.map(heroes,function(hero) {
+      hero.score = (hero.win_rate * hero.popularity) / 1000
+      return hero;
+    });
 
 
     var promises = [];
@@ -34,7 +37,7 @@ angular.module('heroes', [])
           return {
             name: datum.name,
             date: datum.date,
-            score: (datum.win_rate * datum.popularity) / datum.games_played * 1000,
+            score: (datum.win_rate * datum.popularity) / 1000,
             win_rate: datum.win_rate,
             popularity: datum.popularity,
             games_played: datum.games_played
