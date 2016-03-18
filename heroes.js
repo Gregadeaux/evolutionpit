@@ -22,6 +22,7 @@ angular.module('heroes', [])
   }
 })
 .controller("HeroList", function($scope, Heroes, $q) {
+  $scope.loading = true;
   Heroes.all().then(function(heroes) {
     $scope.heroes = _.map(heroes,function(hero) {
       hero.score = (hero.win_rate * hero.popularity) / 100
@@ -47,6 +48,7 @@ angular.module('heroes', [])
     });
 
     $q.all(promises).then(function(a) {
+      $scope.loading = false;
 
       var margin = {top: 20, right: 40, bottom: 40, left: 50};
       var width = 920 - margin.left - margin.right;
@@ -81,7 +83,7 @@ angular.module('heroes', [])
 
       var xAxis = d3.svg.axis().scale(x).orient("bottom");
       var yAxis = d3.svg.axis().scale(y).orient("left");
-      xAxis.ticks(2);
+      xAxis.ticks(_.min([(a[0].length), 10]));
       xAxis.tickFormat(d3.time.format("%m/%d"));
 
       var line = d3.svg.line()
@@ -99,7 +101,7 @@ angular.module('heroes', [])
 
       _.each(a, function(hero) {
         svg.append('path').datum(hero).attr("class", "line " + slugify(hero[0].name)).attr("d",line)
-        .on("mouseover", function(d) {
+                .on("mouseover", function(d) {
           $scope.$apply(function() {
             $scope.activeHero = d[0];
           });
@@ -108,7 +110,15 @@ angular.module('heroes', [])
           $scope.$apply(function() {
             $scope.activeHero = null;
           });
-        });
+        })
+        _.each(hero, function(h) {
+          svg.append("circle").datum(h)
+          .attr("cx", function(d) { return x(formatDate.parse(d.date)) })
+          .attr("cy", function(d) { return y(d.score) })
+          .attr("r", 4)
+          .attr("class", "circle " + slugify(h.name))
+          .append("svg:title").text(function(d) { return d.score.toFixed(1) })
+        })
       });
 
       svg.append("g").attr("class", "y axis").call(yAxis).append("text")
