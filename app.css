@@ -320,13 +320,16 @@ article .author {
 }
 
 .line {
-  fill: none;
+  fill: none!important;
   stroke: #333;
-  stroke-width: 3px;
+  stroke-width: 1px;
   opacity: 0.6;
 }
+.line path {
+  fill: none;
+}
 .circle {
-  opacity: 0.4;
+  /*opacity: 0.4;*/
 }
 .circle:hover {
   opacity: 1;
@@ -334,8 +337,8 @@ article .author {
   cursor: pointer;
 }
 .line:hover {
-  stroke-width: 5px;
   cursor: pointer;
+  stroke-width: 2px;
   opacity: 1;
 }
 .xul { stroke: #60AF95; fill: #60AF95; }
@@ -378,14 +381,14 @@ article .author {
 .kerrigan { stroke: #864E6C; fill: #864E6C;; }
 .gall { stroke: #6420A5; fill: #6420A5;; }
 .tyrael { stroke: #FFD26D; fill: #FFD26D;; }
-.line.uther { stroke: #C8873E; fill: #C8873E;; }
-.line.illidan { stroke: #4F8743; fill: #4F8743;; }
-.line.tychus { stroke: #2A48A9; fill: #2A48A9;; }
-.line.tassadar { stroke: #13E9F2; fill: #13E9F2;; }
-.line.sylvanas { stroke: #70A4DD; fill: #70A4DD;; }
-.line.cho { stroke: #FFA757; fill: #FFA757;; }
-.line.nova { stroke: #7EA2B5; fill: #7EA2B5;; }
-.line.abathur { stroke: #573C7A; fill: #573C7A;; }
+.uther { stroke: #C8873E; fill: #C8873E;; }
+.illidan { stroke: #4F8743; fill: #4F8743;; }
+.tychus { stroke: #2A48A9; fill: #2A48A9;; }
+.tassadar { stroke: #13E9F2; fill: #13E9F2;; }
+.sylvanas { stroke: #70A4DD; fill: #70A4DD;; }
+.cho { stroke: #FFA757; fill: #FFA757;; }
+.nova { stroke: #7EA2B5; fill: #7EA2B5;; }
+.abathur { stroke: #573C7A; fill: #573C7A;; }
 
 
 .sk-folding-cube {

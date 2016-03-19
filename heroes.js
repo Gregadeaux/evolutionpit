@@ -87,7 +87,6 @@ angular.module('heroes', [])
       xAxis.tickFormat(d3.time.format("%m/%d"));
 
       var line = d3.svg.line()
-                  .interpolate("basis")
                  .x(function(d) { return x(formatDate.parse(d.date)); })
                  .y(function(d) { return y(d.score) }); 
 
@@ -101,7 +100,7 @@ angular.module('heroes', [])
 
       _.each(a, function(hero) {
         svg.append('path').datum(hero).attr("class", "line " + slugify(hero[0].name)).attr("d",line)
-                .on("mouseover", function(d) {
+        .on("mouseover", function(d) {
           $scope.$apply(function() {
             $scope.activeHero = d[0];
           });
@@ -115,7 +114,17 @@ angular.module('heroes', [])
           svg.append("circle").datum(h)
           .attr("cx", function(d) { return x(formatDate.parse(d.date)) })
           .attr("cy", function(d) { return y(d.score) })
-          .attr("r", 4)
+          .attr("r", 2)
+          .on("mouseover", function(d) {
+            $scope.$apply(function() {
+              $scope.activeHero = d;
+            });
+          })
+          .on("mouseout", function(d) {
+            $scope.$apply(function() {
+              $scope.activeHero = null;
+            });
+          })
           .attr("class", "circle " + slugify(h.name))
           .append("svg:title").text(function(d) { return d.score.toFixed(1) })
         })
