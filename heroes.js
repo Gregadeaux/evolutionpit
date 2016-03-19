@@ -99,17 +99,30 @@ angular.module('heroes', [])
       
 
       _.each(a, function(hero) {
-        svg.append('path').datum(hero).attr("class", "line " + slugify(hero[0].name)).attr("d",line)
-        .on("mouseover", function(d) {
-          $scope.$apply(function() {
-            $scope.activeHero = d[0];
-          });
-        })
-        .on("mouseout", function(d) {
-          $scope.$apply(function() {
-            $scope.activeHero = null;
-          });
-        })
+        _.each(hero, function(element, index) {
+          if(index > 0 && index) {
+            svg.append('path').datum(hero.slice(index - 1, index + 1)).attr("class", "line " + slugify(hero[0].name)).attr("d",line)
+            .on("mouseover", function(d) {
+              $scope.$apply(function() {
+                $scope.activeHero = d[0];
+              });
+            })
+            .on("mouseout", function(d) {
+              $scope.$apply(function() {
+                $scope.activeHero = null;
+              });
+            })
+            .append("svg:title").text(function(d) { 
+              var name = d[0].name;
+              var firstScore = d[0].score.toFixed(1);
+              var secondScore = d[1].score.toFixed(1);
+              var delta = (secondScore - firstScore).toFixed(1);
+              var cardinality = (delta > 0) ? "+" : "";
+              return name + ": " + firstScore + " - " + secondScore + " (" + cardinality + delta + ")";
+            })
+          }
+        });
+
         _.each(hero, function(h) {
           svg.append("circle").datum(h)
           .attr("cx", function(d) { return x(formatDate.parse(d.date)) })
@@ -126,7 +139,7 @@ angular.module('heroes', [])
             });
           })
           .attr("class", "circle " + slugify(h.name))
-          .append("svg:title").text(function(d) { return d.score.toFixed(1) })
+          .append("svg:title").text(function(d) { return d.name + ": " + d.score.toFixed(1) })
         })
       });
 
