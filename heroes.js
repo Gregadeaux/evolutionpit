@@ -99,9 +99,12 @@ angular.module('heroes', [])
       
 
       _.each(a, function(hero) {
+        var min = _.min(hero, function(h) { return h.score });
+        var max = _.max(hero, function(h) { return h.score });
+        var isInteresting = !(max.score - min.score < 1);
         _.each(hero, function(element, index) {
           if(index > 0 && index) {
-            svg.append('path').datum(hero.slice(index - 1, index + 1)).attr("class", "line " + slugify(hero[0].name)).attr("d",line)
+            svg.append('path').datum(hero.slice(index - 1, index + 1)).attr("class", "line " + slugify(hero[0].name) + " " + (isInteresting ? "" : "boring")).attr("d",line)
             .on("mouseover", function(d) {
               $scope.$apply(function() {
                 $scope.activeHero = d[0];
@@ -124,6 +127,7 @@ angular.module('heroes', [])
         });
 
         _.each(hero, function(h) {
+          if(!isInteresting) return;
           svg.append("circle").datum(h)
           .attr("cx", function(d) { return x(formatDate.parse(d.date)) })
           .attr("cy", function(d) { return y(d.score) })

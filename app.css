@@ -329,9 +329,16 @@ article .author {
 .line {
   fill: none!important;
   stroke: #333;
-  stroke-width: 1px;
-  opacity: 0.6;
+  stroke-width: 1.3px;
+  opacity: 0.8;
   pointer-events:all;
+}
+.line.boring {
+  opacity: 0.15;
+}
+.line.boring:hover {
+  opacity: 0.6;
+  stroke-width: 2px;
 }
 .line path {
   fill: none;
