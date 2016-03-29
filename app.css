@@ -499,3 +499,16 @@ article .author {
   margin: auto!important;
   margin-top: 150px!important;
 }
+
+.graph-selector .active {
+    color: #333;
+}
+.graph-selector a {
+    color: #DDD;
+    text-decoration: none;
+    padding-left: 6px;
+    font-size: 14px;
+    padding-bottom: 4px;
+    display: inline-block;
+}
+

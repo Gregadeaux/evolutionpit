@@ -29,6 +29,11 @@
       </ul>
     </nav>
     <div class="container heroes" ng-controller="HeroList">
+      <div style="text-align: right" class="graph-selector">
+          <a href="#" ng-class='{active: graphing=="win_rate"}' ng-click="graphing='win_rate'">Win Rate</a>
+          <a href="#" ng-class='{active: graphing=="popularity"}' ng-click="graphing='popularity'">Popularity</a>
+          <a href="#" ng-class='{active: graphing=="score"}' ng-click="graphing='score'" ng-init="graphing='score'">Meta Score</a>
+      </div>
       <div class="hero-graph">
         <div class="sk-folding-cube" ng-show="loading">
           <div class="sk-cube1 sk-cube"></div>
