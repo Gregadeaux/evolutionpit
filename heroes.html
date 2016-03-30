@@ -21,7 +21,7 @@
     </header>
     <nav>
       <ul>
-        <li><a href="heroes.html">Heroes</a></li>
+        <li><a href="/heroes.html">Heroes</a></li>
         <li><a href="/maps">Maps</a></li>
         <li><a href="/players">Players</a></li>
         <li><a href="/esports">E-Sports</a></li>
@@ -62,8 +62,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="hero in heroes | orderBy:'-score' " ng-class="{hovered: activeHero.name === hero.name}">
-            <td>{{ hero.name }}</td>
+          <tr ng-repeat="hero in heroes | orderBy:'-score' " ng-class="{hovered: activeHero.name === hero.name}" ng-click="go(hero)">
+            <td><a href="/hero.html?name={{ hero.name }}">{{hero.name}}</a></td>
             <td class="stat">{{hero.win_rate}}%</td>
             <td class="stat">{{hero.popularity}}%</td>
             <td class="stat">--</td>

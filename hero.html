@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'> 
+    <link href="app.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://underscorejs.org/underscore-min.js"></script>
+    <script src="heroes.js"></script>
+  </head>
+  <body ng-app="heroes">
+    <header>
+      <h1><a href="index.html">The Evolution Pit</a></h1>
+      <div class="league-selector">
+        <select>
+          <option>Hero League</option>
+          <option>Team League</option>
+          <option>Quick Match</option>
+        </select>
+      </div>
+    </header>
+    <nav>
+      <ul>
+        <li><a href="heroes.html">Heroes</a></li>
+        <li><a href="/maps">Maps</a></li>
+        <li><a href="/players">Players</a></li>
+        <li><a href="/esports">E-Sports</a></li>
+        <li><a href="/account">Account</a></li>
+      </ul>
+    </nav>
+    <div class="container hero" ng-controller="HeroDetail">
+        <h2>{{hero.name}}</h2>
+        <div class="hero-graph">
+          <div class="sk-folding-cube" ng-show="loading">
+              <div class="sk-cube1 sk-cube"></div>
+              <div class="sk-cube2 sk-cube"></div>
+              <div class="sk-cube4 sk-cube"></div>
+              <div class="sk-cube3 sk-cube"></div>
+            </div>
+          </div>
+        <h2>Recommended Talent Builds</h2>
+        <div class="build" ng-repeat="build in hero.builds[league][map]">
+                        <div class="talents">
+                <div class="talent" ng-repeat="talent in build.talents"> 
+                    <img ng-src="{{talent.image}}" title="{{talent.name}} - {{talent.description}}" />
+                </div>
+            </div>
+            <div class="stats">
+                Win rate: {{ build.win_rate }}
+                &nbsp;&nbsp;
+                &nbsp;&nbsp;
+                Games played: {{ build.games_played }} 
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

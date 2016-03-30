@@ -282,10 +282,20 @@ article .author {
   text-align: center;
 }
 
-.heroes tr.hovered td {
+.heroes tr.hovered td,
+.heroes tr:hover td {
   font-weight: bold;
   background-color: #DDD;
+  cursor: pointer;
 }
+.heroes tr:active td {
+    background-color: #CCC;
+}
+.heroes tr a {
+    color: #333;
+    text-decoration: none;
+}
+
 
 .heroes tr td {
   padding: 5px;
@@ -343,6 +353,18 @@ article .author {
 .line path {
   fill: none;
 }
+
+.line.popularity,
+.line.win-rate {
+    stroke-width: 2px;
+    stroke: #6032A0;
+}
+.line.popularity:hover,
+.line.win-rate:hover {
+    stroke-width: 4px;
+}
+
+
 .circle {
   /*opacity: 0.4;*/
 }
@@ -512,3 +534,40 @@ article .author {
     display: inline-block;
 }
 
+.hero.container {
+    flex-direction: column;
+}
+
+.hero .build .talents {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: -5px;
+}
+
+.hero .build .talent {
+    flex: 1;
+    padding: 10px;
+}
+.hero .build .talent:first-child {
+    padding-left: 0px;
+}
+.hero .build .talent:last-child {
+    padding-right: 0px;
+}
+.hero .build .talent img {
+    width: 100%;
+    -webkit-filter: grayscale(40%);
+}
+.hero .build .stats {
+    text-align: right;
+    color: #BBB;
+    margin-bottom: 30px;
+    border-top: 1px solid #E5E5E5;
+    padding-top: 5px;
+}
+.label {
+    font-size: 10px;
+    position: relative;
+    fill: #BBB;
+    text-transform: uppercase;
+}
