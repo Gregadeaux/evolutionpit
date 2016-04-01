@@ -23,7 +23,7 @@ var qs = (function(a) {
 })(window.location.search.substr(1).split('&'));
 var patches = [
         {date: "2016-03-16 00:00:00 +0000", patch: "16.5", notes: "http://us.battle.net/heroes/en/blog/20057110"},
-        {date: "2016-03-31 00:00:00 +0000", patch: "17.0", notes: "http://us.battle.net/heroes/en/blog/20063493"}
+        {date: "2016-03-29 00:00:00 +0000", patch: "17.0", notes: "http://us.battle.net/heroes/en/blog/20063493"}
     ]
 
 angular.module('heroes', [])
