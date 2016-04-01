@@ -558,16 +558,38 @@ article .author {
     width: 100%;
     -webkit-filter: grayscale(40%);
 }
-.hero .build .stats {
-    text-align: right;
+.hero .build .stats-inner {
+    text-align: center;
     color: #BBB;
-    margin-bottom: 30px;
-    border-top: 1px solid #E5E5E5;
-    padding-top: 5px;
+    background-color: #E5E5E5;
+    padding: 5px;
+    flex: 1 1 auto;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+.stats-inner hr {
+    border: 1px solid #BBB;
+    border-bottom: none;
+    width: 70%;
+}
+.stats-inner .win-rate {
+    font-size: 18px;
+}
+.hero .build .stats {
+    padding: 10px;
+    flex: 1;
+    flex-direction: column;
+    display: flex;
+    height: 100%;
 }
 .label {
     font-size: 10px;
     position: relative;
     fill: #BBB;
     text-transform: uppercase;
+}
+
+.patch-label {
+    font-size: 10px;
+    transform: translateX(-10px);
 }

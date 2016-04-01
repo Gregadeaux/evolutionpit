@@ -127,8 +127,35 @@ angular.module('heroes', [])
                     .append("g")
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+        var patches = [
+            {date: "2016-03-16 00:00:00 +0000", patch: "16.6", notes: "http://us.battle.net/heroes/en/blog/20057110"},
+            {date: "2016-03-31 00:00:00 +0000", patch: "17.0", notes: "http://us.battle.net/heroes/en/blog/20063493"}
+        ]
 
-         svg.append("line").attr("x1", x(new Date(2016,29,03))).attr("y1", 0).attr("x2", x(new Date(2016,29,3))).attr("y2", height - margin.top - margin.bottom).style("stroke-width", 2).style("stroke", "#000000").style("fill", "none");
+         _.each(patches, function(patch) {
+             svg.append("line")
+                .attr("x1", x(formatDate.parse(patch.date)))
+                .attr("y1", 0)
+                .attr("x2", x(formatDate.parse(patch.date)))
+                .attr("y2", height)
+                .style("stroke-width", 4)
+                .style("stroke", "#DDDDDD").style("fill", "none")
+                .style("cursor", "pointer")
+                .on("click", function() {
+                    window.open(patch.notes);
+                });
+             svg.append("text")
+                .attr("x", x(formatDate.parse(patch.date)))
+                .attr("y", -8)
+                .text(patch.patch)
+                .attr("class", "patch-label")
+                .style("font-size", "10px")
+                .style("fill", "#BBBBBB")
+                .style("cursor", "pointer")
+                .on("click", function() {
+                    window.open(patch.notes);
+                });
+         })
           
 
           _.each(a, function(hero) {

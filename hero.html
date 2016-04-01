@@ -44,13 +44,17 @@
                 <div class="talent" ng-repeat="talent in build.talents"> 
                     <img ng-src="{{talent.image}}" title="{{talent.name}} - {{talent.description}}" />
                 </div>
-            </div>
             <div class="stats">
-                Win rate: {{ build.win_rate }}
-                &nbsp;&nbsp;
-                &nbsp;&nbsp;
-                Games played: {{ build.games_played }} 
+                <div class="stats-inner">
+                    <span class="win-rate">{{ build.win_rate }}%</span>
+                    <hr />
+                    {{ build.games_played }}
+                    <br />
+                    Games played
+                </div>
             </div>
+            </div>
+            
 
         </div>
     </div>
