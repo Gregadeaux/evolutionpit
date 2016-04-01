@@ -46,7 +46,7 @@ angular.module('heroes', [])
   $scope.loading = true;
   Heroes.all().then(function(heroes) {
     $scope.heroes = _.map(heroes,function(hero) {
-      hero.score = (hero.win_rate * hero.popularity) / 100
+      hero.score = ((hero.win_rate) * hero.popularity) / 100
       return hero;
     });
 
@@ -127,6 +127,25 @@ angular.module('heroes', [])
                     .append("g")
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+
+          if($scope.graphing == "win_rate") {
+            svg.append("line")
+                .attr("x1", x(xMin))
+                .attr("x2", x(xMax))
+                .attr("y1", y(50))
+                .attr("y2", y(50))
+                .style("stroke-width", (y(45) - y(55)))
+                .style("stroke", "#EEEEEE")
+            svg.append("line")
+                .attr("x1", x(xMin))
+                .attr("x2", x(xMax))
+                .attr("y1", y(50))
+                .attr("y2", y(50))
+                .style("stroke-width", (y(48) - y(52)))
+                .style("stroke", "#DDDDDD")
+
+          }
+
         var patches = [
             {date: "2016-03-16 00:00:00 +0000", patch: "16.5", notes: "http://us.battle.net/heroes/en/blog/20057110"},
             {date: "2016-03-31 00:00:00 +0000", patch: "17.0", notes: "http://us.battle.net/heroes/en/blog/20063493"}
@@ -139,7 +158,7 @@ angular.module('heroes', [])
                 .attr("x2", x(formatDate.parse(patch.date)))
                 .attr("y2", height)
                 .style("stroke-width", 4)
-                .style("stroke", "#DDDDDD").style("fill", "none")
+                .style("stroke", "#BBBBBB").style("fill", "none")
                 .style("cursor", "pointer")
                 .on("click", function() {
                     window.open(patch.notes);
@@ -156,6 +175,7 @@ angular.module('heroes', [])
                     window.open(patch.notes);
                 });
          })
+
           
 
           _.each(a, function(hero) {
