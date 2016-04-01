@@ -21,6 +21,10 @@ var qs = (function(a) {
     }
     return b;
 })(window.location.search.substr(1).split('&'));
+var patches = [
+        {date: "2016-03-16 00:00:00 +0000", patch: "16.5", notes: "http://us.battle.net/heroes/en/blog/20057110"},
+        {date: "2016-03-31 00:00:00 +0000", patch: "17.0", notes: "http://us.battle.net/heroes/en/blog/20063493"}
+    ]
 
 angular.module('heroes', [])
 .config(function($locationProvider) {
@@ -44,6 +48,7 @@ angular.module('heroes', [])
 })
 .controller("HeroList", function($scope, Heroes, $q) {
   $scope.loading = true;
+  
   Heroes.all().then(function(heroes) {
     $scope.heroes = _.map(heroes,function(hero) {
       hero.score = ((hero.win_rate) * hero.popularity) / 100
@@ -146,10 +151,7 @@ angular.module('heroes', [])
 
           }
 
-        var patches = [
-            {date: "2016-03-16 00:00:00 +0000", patch: "16.5", notes: "http://us.battle.net/heroes/en/blog/20057110"},
-            {date: "2016-03-31 00:00:00 +0000", patch: "17.0", notes: "http://us.battle.net/heroes/en/blog/20063493"}
-        ]
+        
 
          _.each(patches, function(patch) {
              svg.append("line")
@@ -289,6 +291,30 @@ angular.module('heroes', [])
                     .append("g")
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+        _.each(patches, function(patch) {
+             svg.append("line")
+                .attr("x1", x(formatDate.parse(patch.date)))
+                .attr("y1", 0)
+                .attr("x2", x(formatDate.parse(patch.date)))
+                .attr("y2", height)
+                .style("stroke-width", 4)
+                .style("stroke", "#BBBBBB").style("fill", "none")
+                .style("cursor", "pointer")
+                .on("click", function() {
+                    window.open(patch.notes);
+                });
+             svg.append("text")
+                .attr("x", x(formatDate.parse(patch.date)))
+                .attr("y", -5)
+                .text(patch.patch)
+                .attr("class", "patch-label")
+                .style("font-size", "10px")
+                .style("fill", "#BBBBBB")
+                .style("cursor", "pointer")
+                .on("click", function() {
+                    window.open(patch.notes);
+                });
+         })
             _.each(history, function(element, index) {
               if(index > 0 && index) {
                 svg.append('path').datum(history.slice(index - 1, index + 1)).attr("class", "line " + slugify(element.name) + " win-rate").attr("d",wrLine)
