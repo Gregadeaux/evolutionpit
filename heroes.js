@@ -128,7 +128,7 @@ angular.module('heroes', [])
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         var patches = [
-            {date: "2016-03-16 00:00:00 +0000", patch: "16.6", notes: "http://us.battle.net/heroes/en/blog/20057110"},
+            {date: "2016-03-16 00:00:00 +0000", patch: "16.5", notes: "http://us.battle.net/heroes/en/blog/20057110"},
             {date: "2016-03-31 00:00:00 +0000", patch: "17.0", notes: "http://us.battle.net/heroes/en/blog/20063493"}
         ]
 
