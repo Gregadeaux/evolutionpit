@@ -259,15 +259,23 @@ angular.module('heroes', [])
 
           var x = d3.time.scale().range([0, width]);
           var y = d3.scale.linear().range([height, 0]);
+          var y2 = d3.scale.linear().range([height, 0]);
           x.ticks(d3.time.day, 1);
 
           var formatDate = d3.time.format("%Y-%m-%d %H:%M:%S +0000");
 
           var yMin = _.min(_.map(history, function(hero) {
-              return _.min([hero.win_rate, hero.popularity, (hero.win_rate * hero.popularity / 100)]);
+              return _.min([hero.popularity, (hero.win_rate * hero.popularity / 100)]);
           }));
           var yMax = _.max(_.map(history, function(hero) {
-              return _.max([hero.win_rate, hero.popularity, (hero.win_rate * hero.popularity / 100)])
+              return _.max([hero.popularity, (hero.win_rate * hero.popularity / 100)])
+          }));
+
+          var y2Min = _.min(_.map(history, function(hero) {
+              return _.min([hero.win_rate, 40]);
+          }));
+          var y2Max = _.max(_.map(history, function(hero) {
+              return _.max([hero.win_rate, 60]);
           }));
           
           var xMin = formatDate.parse(_.min(history, function(datum) {
@@ -276,16 +284,19 @@ angular.module('heroes', [])
           var xMax =formatDate.parse(_.max(history, function(datum) {
             return formatDate.parse(datum.date);
           }).date);
-            var wrLine = d3.svg.line()
-                 .x(function(d) { return x(formatDate.parse(d.date)); })
-                 .y(function(d) { return y(d.win_rate) }); 
-            var popLine = d3.svg.line()
-                 .x(function(d) { return x(formatDate.parse(d.date)); })
-                 .y(function(d) { return y(d.popularity) }); 
+
+          var wrLine = d3.svg.line()
+               .x(function(d) { return x(formatDate.parse(d.date)); })
+               .y(function(d) { return y2(d.win_rate) }); 
+          var popLine = d3.svg.line()
+               .x(function(d) { return x(formatDate.parse(d.date)); })
+               .y(function(d) { return y(d.popularity) }); 
 
 
           x.domain([xMin, xMax]);
           y.domain([0, 100]);
+          y2.domain([y2Min, y2Max]);
+
           var svg = d3.select(".hero-graph").append("svg").attr("width", width + margin.left + margin.right)
                     .attr("height", height + margin.top + margin.bottom).append("g")
                     .append("g")
@@ -315,36 +326,47 @@ angular.module('heroes', [])
                     window.open(patch.notes);
                 });
          })
-            _.each(history, function(element, index) {
-              if(index > 0 && index) {
-                svg.append('path').datum(history.slice(index - 1, index + 1)).attr("class", "line " + slugify(element.name) + " win-rate").attr("d",wrLine)
-                .append("svg:title").text(function(d) { 
-                  var firstScore = d[0].win_rate.toFixed(1);
-                  var secondScore = d[1].win_rate.toFixed(1);
-                  var delta = (secondScore - firstScore).toFixed(1);
-                  var cardinality = (delta > 0) ? "+" : "";
-                  return firstScore + "% - " + secondScore + "% (" + cardinality + delta + "%)";
-                })
-                svg.append('path').datum(history.slice(index - 1, index + 1)).attr("class", "line " + slugify(element.name) + " popularity").attr("d",popLine)
-                .append("svg:title").text(function(d) { 
-                    var firstScore = d[0].popularity.toFixed(1);
-                  var secondScore = d[1].popularity.toFixed(1);
-                  var delta = (secondScore - firstScore).toFixed(1);
-                  var cardinality = (delta > 0) ? "+" : "";
-                  return firstScore + "% - " + secondScore + "% (" + cardinality + delta + "%)";
-                })
-              }
-            });
+          _.each(history, function(element, index) {
+            if(index > 0 && index) {
+              svg.append('path').datum(history.slice(index - 1, index + 1)).attr("class", "line " + slugify(element.name) + " win-rate").attr("d",wrLine)
+              .append("svg:title").text(function(d) { 
+                var firstScore = d[0].win_rate.toFixed(1);
+                var secondScore = d[1].win_rate.toFixed(1);
+                var delta = (secondScore - firstScore).toFixed(1);
+                var cardinality = (delta > 0) ? "+" : "";
+                return firstScore + "% - " + secondScore + "% (" + cardinality + delta + "%)";
+              })
+              svg.append('path').datum(history.slice(index - 1, index + 1)).attr("class", "line " + slugify(element.name) + " popularity").attr("d",popLine)
+              .append("svg:title").text(function(d) { 
+                  var firstScore = d[0].popularity.toFixed(1);
+                var secondScore = d[1].popularity.toFixed(1);
+                var delta = (secondScore - firstScore).toFixed(1);
+                var cardinality = (delta > 0) ? "+" : "";
+                return firstScore + "% - " + secondScore + "% (" + cardinality + delta + "%)";
+              })
+            }
+          });
 
           var xAxis = d3.svg.axis().scale(x).orient("bottom");
           var yAxis = d3.svg.axis().scale(y).orient("left");
+          var y2Axis = d3.svg.axis().scale(y2).orient("right");
           xAxis.ticks(_.min([(history.length), 10]));
           xAxis.tickFormat(d3.time.format("%m/%d"));
-            svg.append("g").attr("class", "y axis").call(yAxis).append("text")
+          svg.append("g").attr("class", "y axis popularity").call(yAxis).append("text")
             .attr("transform", "rotate(-90)")
             .attr("y", 6)
             .attr("dy", ".71em")
             .style("text-anchor", "end")
+            .text("Popularity")
+
+          svg.append("g").attr("class", "y axis win-rate")
+            .attr("transform", "translate(" + (width) + ",0) " )
+          .call(y2Axis).append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -18)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Win Rate")
 
           svg.append("text")
             .attr("class", "label popularity")
@@ -355,7 +377,7 @@ angular.module('heroes', [])
           svg.append("text")
             .attr("class", "label win-rate")
             .attr("x", x(formatDate.parse(history[history.length - 1].date)) + 5 )
-            .attr("y", y(history[history.length - 1].win_rate) + 3)
+            .attr("y", y2(history[history.length - 1].win_rate) + 3)
             .text("Win Rate");
 
 

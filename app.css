@@ -332,6 +332,17 @@ article .author {
   shape-rendering: crispEdges;
   stroke-width: 2px;
 }
+
+.axis.win-rate path,
+.axis.win-rate line {
+  stroke: #60AF95;
+}
+
+.axis.popularity path,
+.axis.popularity line {
+  stroke: #186DF3;
+}
+
 .axis .tick text {
   font-size: 12px;
 }
@@ -354,10 +365,13 @@ article .author {
   fill: none;
 }
 
-.line.popularity,
+.line.popularity{
+  stroke-width: 2px;
+  stroke: #186DF3;
+}
 .line.win-rate {
     stroke-width: 2px;
-    stroke: #6032A0;
+    stroke: #60AF95;
 }
 .line.popularity:hover,
 .line.win-rate:hover {
